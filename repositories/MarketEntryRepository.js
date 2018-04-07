@@ -1,32 +1,54 @@
+import { AsyncStorage } from 'react-native';
+import _ from 'lodash';
+
 const MarketEntryRepository = (() => {
-    let state = [];
+  const list = (marketId) => {
+    return AsyncStorage.getItem('MarketEntries:'+marketId)
+                       .then((marketEntries) => {
+                         return marketEntries === null ? [] : JSON.parse(marketEntries)
+                       })
+  };
 
-    return {
-        list: (marketId) => {
-          console.log('marketId', marketId);
-
-          return state.filter((e) => e.marketId == marketId );
-        },
-        get: (id) => {
-          return state.find((i) => i.id == id);
-        },
-        add: (marketId, entry) => {
-          newEntry = {...entry, marketId};
-
-          console.log(newEntry);
-
-          state = [
-            newEntry,
-            ...state,
-          ]
-
-          return state.filter((e) => e.marketId == marketId );
-        },
-        update: (marketId, entry) => {
-          state = state.map( (e) => e.id === entry.id ? entry : e )
-          return state.filter((e) => e.marketId == marketId );
-        }
+  const get = (marketId, id) => {
+    return list(marketId).then(
+      (makets) => {
+        return makets.find( m => m.id === id )
       }
-  })();
+    )
+  };
+
+  const add = (marketId, entry) => {
+    return list(marketId).then(
+      (marketEntries) => {
+        const id        = _.uniqueId('id');
+        const new_entry = {id, ...entry};
+        const state     = [new_entry, ...marketEntries];
+
+        AsyncStorage.setItem('MarketEntries:'+marketId, JSON.stringify(state));
+
+        return state;
+      }
+    )
+  }
+
+  const update = (marketId, entry) => {
+    return list(marketId).then(
+      (marketEntries) => {
+        const state = marketEntries.map( (e) => e.id === entry.id ? entry : e );
+
+        AsyncStorage.setItem('MarketEntries:'+marketId, JSON.stringify(state));
+
+        return state;
+      }
+    );
+  }
+
+  return {
+    list,
+    get,
+    add,
+    update
+  }
+})();
 
 export { MarketEntryRepository };

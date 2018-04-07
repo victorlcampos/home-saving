@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import t from 'tcomb-form-native';
-import _ from 'lodash';
 
 const Market = t.struct({
   name: t.String,
@@ -23,17 +22,12 @@ const Form = t.form.Form;
 
 export class MarketForm extends React.Component {
   handleSubmit = () => {
-    const id = _.uniqueId('id');
     const value = this._form.getValue();
 
     const state = this.props.navigation.state;
 
     if (value !== null) {
-      state.params.addItem({
-        id,
-        ...value
-      })();
-
+      state.params.addItem(value)();
       this.props.navigation.pop();
     }
   }

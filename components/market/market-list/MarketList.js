@@ -21,10 +21,11 @@ export class MarketList extends React.Component {
   });
 
   renderItem = ({item}) => {
+    console.log(item);
     return (
       <TouchableOpacity style={styles.row} onPress={this.goToMarket(item)} >
         <Text style={{fontSize: 24}}>
-          {item.name} - {item.date.toLocaleDateString()}
+          {item.name} - {new Date(item.date).toLocaleDateString()}
         </Text>
       </TouchableOpacity>
     )
@@ -32,7 +33,8 @@ export class MarketList extends React.Component {
 
   render() {
     const {markets} = this.props;
-    this.state = markets;
+
+    console.log(markets);
 
     return (
       <FlatList

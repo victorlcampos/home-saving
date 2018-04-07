@@ -15,7 +15,22 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default class MarketEntryListScreen extends React.Component {
 
-  state = { entries: MarketEntryRepository.list(this.props.navigation.state.params.marketId) };
+  state = {
+            entries: []
+          }
+
+  updateMarketEntries = (entries) => {
+    this.setState(
+      {
+        ...this.state,
+        entries
+      }
+    )
+  }
+
+  componentDidMount() {
+    MarketEntryRepository.list(this.props.navigation.state.params.marketId).then(this.updateMarketEntries);
+  }
 
   handlers = {
     checkItem: (item) => {
@@ -24,25 +39,15 @@ export default class MarketEntryListScreen extends React.Component {
 
         item.checked = item.checked === undefined ? true : !item.checked;
 
-        this.setState(
-          {
-            ...this.state,
-            entries: MarketEntryRepository.update(this.props.navigation.state.params.marketId, item)
-          }
-        )
+        MarketEntryRepository.update(this.props.navigation.state.params.marketId, item)
+                             .then(this.updateMarketEntries);
       };
     },
 
     addItem: (item) => {
       return () => {
-        const {entries} = this.state;
-
-        this.setState(
-          {
-            ...this.state,
-            entries: MarketEntryRepository.add(this.props.navigation.state.params.marketId, item)
-          }
-        )
+        MarketEntryRepository.add(this.props.navigation.state.params.marketId, item)
+                             .then(this.updateMarketEntries);
       }
     }
   }
@@ -52,7 +57,7 @@ export default class MarketEntryListScreen extends React.Component {
   }
 
   render() {
-    console.log('props', this.props);
+    console.log('state', this.state);
 
     return (
       <View style={styles.container}>

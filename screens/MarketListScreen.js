@@ -14,18 +14,26 @@ import { AddButton } from '../components/commons/add-button/AddButton';
 
 export default class MarketListScreen extends React.Component {
   state = {
-    markets: MarketRepository.list()
+    markets: []
+  }
+
+  updateMarkets = (markets) => {
+    this.setState(
+      {
+        ...this.state,
+        markets
+      }
+    )
+  }
+
+  componentDidMount() {
+    MarketRepository.list().then(this.updateMarkets);
   }
 
   handlers = {
     addItem: (item) => {
       return () => {
-        this.setState(
-          {
-            ...this.state,
-            markets: MarketRepository.add(item)
-          }
-        )
+        MarketRepository.add(item).then(this.updateMarkets);
       }
     }
   }
