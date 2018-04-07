@@ -4,8 +4,19 @@ import { Text,
          StyleSheet,
          Button,
          Platform,
-         TouchableOpacity } from 'react-native';
+         TouchableHighlight,
+         TouchableOpacity,
+         View} from 'react-native';
+
+import { SwipeListView } from 'react-native-swipe-list-view';
+
 import { Ionicons } from '@expo/vector-icons';
+
+const swipeoutBtns = [
+  {
+    text: 'Button'
+  }
+]
 
 export class MarketList extends React.Component {
   extractKey = ({id}) => id
@@ -21,13 +32,14 @@ export class MarketList extends React.Component {
   });
 
   renderItem = ({item}) => {
-    console.log(item);
     return (
-      <TouchableOpacity style={styles.row} onPress={this.goToMarket(item)} >
-        <Text style={{fontSize: 24}}>
-          {item.name} - {new Date(item.date).toLocaleDateString()}
-        </Text>
-      </TouchableOpacity>
+      <TouchableHighlight style={styles.row} onPress={this.goToMarket(item)} underlayColor={'#AAA'} >
+        <View>
+          <Text style={{fontSize: 24}}>
+            {item.name} - {new Date(item.date).toLocaleDateString()}
+          </Text>
+        </View>
+      </TouchableHighlight>
     )
   }
 
@@ -37,11 +49,23 @@ export class MarketList extends React.Component {
     console.log(markets);
 
     return (
-      <FlatList
-        style={styles.container}
+      <SwipeListView
+        useFlatList={true}
+        disableRightSwipe={true}
         data={markets}
         renderItem={this.renderItem}
+        style={styles.container}
         keyExtractor={this.extractKey}
+        renderHiddenItem={ (rowData, _rowMap) => (
+                <View style={styles.rowBack}>
+                    <TouchableOpacity onPress={ this.props.removeItem(rowData.item) } style={styles.deleteBtn}>
+                        <Text>Delete</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+        leftOpenValue={90}
+        rightOpenValue={-90}
+        closeOnRowPress={false}
       />
     );
   }
@@ -58,10 +82,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 15,
     marginBottom: 5,
-    backgroundColor: '#CFCFCF',
+    backgroundColor: '#FFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEE',
     alignItems: 'center',
   },
   button: {
     padding: 5
+  },
+  rowBack: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 15,
+  },
+  deleteBtn: {
+    backgroundColor: 'red',
+    padding: 15,
   }
 })

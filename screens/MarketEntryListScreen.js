@@ -49,6 +49,13 @@ export default class MarketEntryListScreen extends React.Component {
         MarketEntryRepository.add(this.props.navigation.state.params.marketId, item)
                              .then(this.updateMarketEntries);
       }
+    },
+
+    deleteRow: (item) => {
+      return () => {
+        MarketEntryRepository.remove(this.props.navigation.state.params.marketId, item)
+                             .then(this.updateMarketEntries);
+      }
     }
   }
 

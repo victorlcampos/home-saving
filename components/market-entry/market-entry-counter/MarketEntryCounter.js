@@ -14,10 +14,10 @@ export class MarketEntryCounter extends React.Component {
   render() {
     const {entries} = this.props;
 
+    // <Text style={{fontSize: 32}}> R$ 0 / R$ 220 </Text>
     return (
       <View style={styles.container}>
         <Text style={{fontSize: 32}}> {this.numberOfChecked(entries)} / {this.totalEntries(entries)} </Text>
-        <Text style={{fontSize: 32}}> R$ 0 / R$ 220 </Text>
       </View>
     );
   }

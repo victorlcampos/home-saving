@@ -59,7 +59,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 15,
     marginBottom: 5,
-    backgroundColor: '#CFCFCF',
+    backgroundColor: '#FFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEE',
     alignItems: 'center',
   },
   button: {

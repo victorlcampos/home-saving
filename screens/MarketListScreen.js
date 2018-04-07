@@ -18,6 +18,7 @@ export default class MarketListScreen extends React.Component {
   }
 
   updateMarkets = (markets) => {
+    console.log('markets', markets)
     this.setState(
       {
         ...this.state,
@@ -34,6 +35,11 @@ export default class MarketListScreen extends React.Component {
     addItem: (item) => {
       return () => {
         MarketRepository.add(item).then(this.updateMarkets);
+      }
+    },
+    removeItem: (item) => {
+      return () => {
+        MarketRepository.remove(item.id).then(this.updateMarkets);
       }
     }
   }

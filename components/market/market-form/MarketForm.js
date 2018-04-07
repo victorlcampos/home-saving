@@ -7,11 +7,13 @@ const Market = t.struct({
   date: t.Date,
 });
 
+const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
 const options = {
   fields: {
     date: {
       config: {
-        format: (date) => new Date(date).toLocaleDateString(),
+        format: (date) => new Date(date).toLocaleDateString('pt-BR', dateOptions),
       },
       mode: 'date'
     }

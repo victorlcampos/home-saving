@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import _ from 'lodash';
+import ID from '../utils/id';
 
 const MarketEntryRepository = (() => {
   const list = (marketId) => {
@@ -20,9 +20,11 @@ const MarketEntryRepository = (() => {
   const add = (marketId, entry) => {
     return list(marketId).then(
       (marketEntries) => {
-        const id        = _.uniqueId('id');
-        const new_entry = {id, ...entry};
+        const id        = ID();
+        const new_entry = {...entry, id};
         const state     = [new_entry, ...marketEntries];
+
+        console.log('state', state);
 
         AsyncStorage.setItem('MarketEntries:'+marketId, JSON.stringify(state));
 
