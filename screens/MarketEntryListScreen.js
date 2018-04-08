@@ -51,9 +51,9 @@ export default class MarketEntryListScreen extends React.Component {
       }
     },
 
-    deleteRow: (item) => {
+    removeItem: (item) => {
       return () => {
-        MarketEntryRepository.remove(this.props.navigation.state.params.marketId, item)
+        MarketEntryRepository.remove(this.props.navigation.state.params.marketId, item.id)
                              .then(this.updateMarketEntries);
       }
     }
@@ -64,8 +64,6 @@ export default class MarketEntryListScreen extends React.Component {
   }
 
   render() {
-    console.log('state', this.state);
-
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>

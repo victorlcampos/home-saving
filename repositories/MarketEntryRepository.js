@@ -24,8 +24,6 @@ const MarketEntryRepository = (() => {
         const new_entry = {...entry, id};
         const state     = [new_entry, ...marketEntries];
 
-        console.log('state', state);
-
         AsyncStorage.setItem('MarketEntries:'+marketId, JSON.stringify(state));
 
         return state;
@@ -45,11 +43,24 @@ const MarketEntryRepository = (() => {
     );
   }
 
+  const remove = (marketId, entryId) => {
+    return list(marketId).then(
+        (entries) => {
+          const state = entries.filter( (entry) => entry.id !== entryId );
+
+          AsyncStorage.setItem('MarketEntries:'+marketId, JSON.stringify(state));
+
+          return state;
+        }
+      )
+  }
+
   return {
     list,
     get,
     add,
-    update
+    update,
+    remove
   }
 })();
 

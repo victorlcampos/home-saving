@@ -3,7 +3,6 @@ import { StyleSheet, View, Text } from 'react-native';
 
 export class MarketEntryCounter extends React.Component {
   numberOfChecked = (entries) => {
-    console.log(entries);
     return entries.filter(item => item.checked).length
   }
 

@@ -18,7 +18,6 @@ export default class MarketListScreen extends React.Component {
   }
 
   updateMarkets = (markets) => {
-    console.log('markets', markets)
     this.setState(
       {
         ...this.state,

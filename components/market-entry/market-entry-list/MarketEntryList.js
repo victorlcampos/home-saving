@@ -1,12 +1,13 @@
 import React from 'react';
 import { Text,
-         FlatList,
          StyleSheet,
          View,
          Button,
          Platform,
          TouchableOpacity } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 export class MarketEntryList extends React.Component {
   extractKey = ({id}) => id
@@ -38,11 +39,23 @@ export class MarketEntryList extends React.Component {
     this.state = entries;
 
     return (
-      <FlatList
-        style={styles.container}
+      <SwipeListView
+        useFlatList={true}
+        disableRightSwipe={true}
         data={entries}
         renderItem={this.renderItem}
+        style={styles.container}
         keyExtractor={this.extractKey}
+        renderHiddenItem={ (rowData, _rowMap) => (
+                <View style={styles.rowBack}>
+                    <TouchableOpacity onPress={ this.props.removeItem(rowData.item) } style={styles.deleteBtn}>
+                        <Text>Delete</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+        leftOpenValue={90}
+        rightOpenValue={-90}
+        closeOnRowPress={false}
       />
     );
   }
@@ -64,7 +77,18 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EEE',
     alignItems: 'center',
   },
+  rowBack: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 15,
+  },
   button: {
     padding: 5
+  },
+  deleteBtn: {
+    backgroundColor: 'red',
+    padding: 15,
   }
 })

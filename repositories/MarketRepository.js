@@ -25,14 +25,15 @@ const MarketRepository = (() => {
 
         const lastMarketId = markets[0] !== undefined ? markets[0].id : undefined;
 
-        const state = [new_market, ...markets];
+        const state = [new_market, ...markets].sort((a, b) => {
+          return Date.parse(b.date)-Date.parse(a.date);
+        });
 
         AsyncStorage.setItem('Markets', JSON.stringify(state))
                     .then((_) => {
                       if(lastMarketId !== undefined)
                       {
                         MarketEntryRepository.list(lastMarketId).then((entries) => {
-                          console.log('entries', entries);
                           const newEntries = entries.forEach((entry) => {
                             entry.checked = false;
                             MarketEntryRepository.add(id, entry);

@@ -22,8 +22,6 @@ export class MarketList extends React.Component {
   extractKey = ({id}) => id
 
   goToMarket = (({id}) => {
-    console.log('marketId', id);
-
     return () => {
       this.props.navigation.navigate('MarketEntrytList', {
         marketId: id
@@ -45,8 +43,6 @@ export class MarketList extends React.Component {
 
   render() {
     const {markets} = this.props;
-
-    console.log(markets);
 
     return (
       <SwipeListView

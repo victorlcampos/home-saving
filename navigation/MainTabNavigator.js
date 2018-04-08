@@ -14,16 +14,7 @@ export default TabNavigator(
   {
     MarketList: {
       screen: MarketNavigation,
-    },
-    Home: {
-      screen: HomeScreen,
-    },
-    Links: {
-      screen: LinksScreen,
-    },
-    Settings: {
-      screen: SettingsScreen,
-    },
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
